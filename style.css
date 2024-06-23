@@ -1,0 +1,36 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+.question {
+    display: none;
+}
+.question.active {
+    display: block;
+}
+.navigation {
+    margin-top: 20px;
+    display: flex;
+}
+.navigation button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    
+}
+
+.footer p {
+    margin: 200; 
+}
