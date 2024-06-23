@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">        
+        <div id="userIdSection">
+            <h1>Baykar Test</h1>
+            <h2>Lütfen kullanici ID'nizi girin:</h2>
+            <input type="text" id="userIdInput" placeholder="User ID">
+            <button id="submitUserId">Başla</button>
+        </div>
+
+        <div id="quizSection" style="display: none;">
+            <h1 id="totalIndex"></h1>
+            <h2 id="questionHTML"></h2>
+            <form id="optionsForm">
+                <input type="radio" id="a" name="answer">
+                <label for="a" id="labelA"></label><br>
+        
+                <input type="radio" id="b" name="answer">
+                <label for="b" id="labelB"></label><br>
+        
+                <input type="radio" id="c" name="answer">
+                <label for="c" id="labelC"></label><br>
+        
+                <input type="radio" id="d" name="answer">
+                <label for="d" id="labelD"></label><br>
+            </form>
+            <div class="footer">
+                <div class="navigation">
+                    <button id="prevBtn">Back</button>
+                    <button id="nextBtn"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
