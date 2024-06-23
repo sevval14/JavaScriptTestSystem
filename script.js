@@ -33,12 +33,20 @@ function processData(data, userId) {
 function fetchQuestion(data, userId){
     const userPosts = data.filter(post => post.userId == userId);
     let questionIndex = 0;
+    const totalTime = 30;
+    const enableTime = 10;
+    let timeLeft = totalTime;
+    let timer;
 
     function displayNextQuestion() {
+  
         if (questionIndex < userPosts.length) {
             const currentPost = userPosts[questionIndex];
             document.getElementById('questionHTML').innerText = currentPost.title;
-
+            clearInterval(timer);
+            timeLeft = totalTime;
+            updateTimer();
+            startTimer();
             const options = currentPost.body.split("\n");
             document.getElementById('labelA').innerText = "A) " + options[0];
             document.getElementById('labelB').innerText = "B) " + options[1];
@@ -62,8 +70,31 @@ function fetchQuestion(data, userId){
             document.getElementById('optionsForm').style.display = 'none';
         }
     }
-
     displayNextQuestion();
+    document.getElementById('nextBtn').addEventListener('click', function() {
+         if (timeLeft >= 20) {
+            alert("You can pass after " + (timeLeft - 20) + " seconds");
+        }else{
+            displayNextQuestion();
 
-    document.getElementById('nextBtn').addEventListener('click', displayNextQuestion);
+        }
+    });
+
+
+    function updateTimer() {
+        document.getElementById("timer").innerText = "Kalan Süre: " + timeLeft + " saniye";
+    }
+
+    function startTimer() {
+        timer = setInterval(function() {
+            timeLeft--;
+            if (timeLeft <= 0) {
+                displayNextQuestion();
+            }
+            updateTimer();
+        }, 1000);
+   
+    }
+    //setInterval fonksiyonu, belirtilen işlevi her 1000 milisaniyede (1 saniyede) bir çalıştırır.
+
 }
