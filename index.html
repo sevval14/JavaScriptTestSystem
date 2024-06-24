@@ -31,7 +31,7 @@
                 <input type="radio" id="d" name="answer">
                 <label for="d" id="labelD"></label><br>
             </form>
-            <div class="footer">
+            <div id="footer" >
                 <div class="navigation">
                     <button id="prevBtn">Back</button>
                     <button id="nextBtn"></button>
@@ -39,6 +39,20 @@
                 <div id="timer">Kalan Süre: 30 saniye</div>
 
             </div>
+        </div>
+
+        <div id="resultTable" style="display: none;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Your Answer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <button id="refresh">Home page</button>
         </div>
     </div>
     <script src="script.js"></script>
