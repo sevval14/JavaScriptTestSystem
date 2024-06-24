@@ -21,7 +21,6 @@ function processData(data, userId) {
     if (userIDs.includes(parseInt(userId))) {
         document.getElementById('userIdSection').style.display = 'none';
         document.getElementById('quizSection').style.display = 'block';
-
         fetchQuestion(data, userId);
         
         console.log("User ID found:", userId);
@@ -37,9 +36,11 @@ function fetchQuestion(data, userId){
     const enableTime = 10;
     let timeLeft = totalTime;
     let timer;
+    const answers = [];
+
 
     function displayNextQuestion() {
-  
+
         if (questionIndex < userPosts.length) {
             const currentPost = userPosts[questionIndex];
             document.getElementById('questionHTML').innerText = currentPost.title;
@@ -65,20 +66,72 @@ function fetchQuestion(data, userId){
 
             }
             questionIndex++;
-        } else {
+        } 
+        else {
+            const tbody = document.querySelector('tbody');
+
+            answers.forEach(item => {
+                const tr = document.createElement('tr');
+                const tdQuestion = document.createElement('td');
+                const tdAnswer = document.createElement('td');
+    
+                tdQuestion.textContent = `Soru ${item.question}`;
+                tdAnswer.textContent = item.answer;
+    
+                tr.appendChild(tdQuestion);
+                tr.appendChild(tdAnswer);
+                tbody.appendChild(tr);
+            });
+            document.getElementById("refresh").addEventListener("click",refreshPage);
             document.getElementById('questionHTML').innerText = "Tüm sorular görüntülendi.";
             document.getElementById('optionsForm').style.display = 'none';
+            document.getElementById('footer').style.display = 'none';
+            document.getElementById('resultTable').style.display = 'block';
+            totalIndex.innerText = "Results"
+            clearInterval(timer);
+
         }
     }
     displayNextQuestion();
     document.getElementById('nextBtn').addEventListener('click', function() {
-         if (timeLeft >= 20) {
+        if (timeLeft >= 20) {
             alert("You can pass after " + (timeLeft - 20) + " seconds");
         }else{
-            displayNextQuestion();
+            const selectedOption = getSelectedOption();
+            if (selectedOption) {
+                answers.push({ question: questionIndex, answer: selectedOption });
 
+            } else {
+                answers.push({ question: questionIndex, answer: "boş" });
+            }
+            console.log(answers);
+            clearSelectedOptions();
+            displayNextQuestion();
         }
     });
+
+    document.getElementById('prevBtn').addEventListener('click', function() {
+        alert("You cannot go back to the previous question")
+    });
+
+
+    function getSelectedOption() {
+        const options = document.getElementsByName('answer');
+        for (const option of options) {
+            if (option.checked) {
+                const label = document.querySelector(`label[for=${option.id}]`);
+                return label.textContent;
+            }
+        }
+        return null; 
+    }
+
+    function clearSelectedOptions() {
+        const options = document.getElementsByName('answer');
+        for (const option of options) {
+            option.checked = false;
+        }
+    }
 
 
     function updateTimer() {
@@ -89,12 +142,24 @@ function fetchQuestion(data, userId){
         timer = setInterval(function() {
             timeLeft--;
             if (timeLeft <= 0) {
+                const selectedOption = getSelectedOption();
+                if (selectedOption) {
+                    answers.push({ question: questionIndex, answer: selectedOption });
+    
+                } else {
+                    answers.push({ question: questionIndex, answer: "boş" });
+                }
+                console.log(answers);
+                clearSelectedOptions();
                 displayNextQuestion();
             }
             updateTimer();
         }, 1000);
    
     }
-    //setInterval fonksiyonu, belirtilen işlevi her 1000 milisaniyede (1 saniyede) bir çalıştırır.
+
+    function refreshPage() {
+        window.location.reload();
+    }
 
 }
